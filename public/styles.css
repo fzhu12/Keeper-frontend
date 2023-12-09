@@ -58,10 +58,9 @@ footer p {
   background: #fff;
   border-radius: 16px;
   box-shadow: 0 2px 5px #ccc;
-  width: 350px;
-  padding: 16px;
-  margin: 16px;
-  float: center;
+  width: 330px;
+  padding: 20px;
+  margin: 20px;
   text-align: center;
 }
 .addnote input {

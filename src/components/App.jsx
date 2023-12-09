@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 import Note from "./Note";
@@ -36,47 +36,40 @@ function App() {
 
   // Map notes to Note objects
   function mapNotes(note) {
-    var notesMapped = (
-      <Note
-        noteId={note.key}
-        title={note.title}
-        content={note.content}
-        onDelete={deleteNote}
-      />
+    return (
+        <Note
+            noteId={note.key}
+            title={note.title}
+            content={note.content}
+            onDelete={deleteNote}
+        />
     );
-    // console.log(notesMapped);
-    return notesMapped;
   }
 
   // Add notes
   function addNote() {
-    setNotes((prevNotes) => {
-      var keys = prevNotes.map((note) => note.key);
-      var maxKey = Math.max.apply(null, keys);
-      inputText["key"] = maxKey + 1;
-      var newNotes = [...prevNotes, inputText];
-      // console.log(typeof keys);
-      // console.log(keys);
-      // console.log(maxKey);
-      // console.log(newNotes);
-      return newNotes;
-    });
-    setInputText({
-      title: "",
-      content: ""
-    });
+    if (inputText.title.length === 0 || inputText.content.length === 0)
+      alert("Please put in title and note content")
+    else {
+      setNotes((prevNotes) => {
+        const keys = prevNotes.map((note) => note.key);
+        const maxKey = Math.max.apply(null, keys);
+        inputText["key"] = maxKey + 1;
+        return [...prevNotes, inputText];
+      });
+      setInputText({
+        title: "",
+        content: ""
+      });
+    }
   }
 
   // Delete notes
   function deleteNote(idToDelete) {
     setNotes((prevNotes) => {
-      var newNotes = prevNotes.filter(
-        (prevNotes) => prevNotes.key !== idToDelete
+      return prevNotes.filter(
+          (prevNotes) => prevNotes.key !== idToDelete
       );
-      // console.log(prevNotes);
-      // console.log(idToDelete);
-      // console.log(newNotes);
-      return newNotes;
     });
   }
 
@@ -91,6 +84,7 @@ function App() {
           value={inputText.title}
           onChange={handleChange}
           style={{ color: "orange" }}
+          required
         />
         <input
           name="content"
@@ -98,7 +92,9 @@ function App() {
           type="text"
           value={inputText.content}
           onChange={handleChange}
+          required
         />
+        <br></br>
         <button onClick={addNote}>Add note</button>
       </div>
       <div>{notes.map(mapNotes)}</div>
