@@ -5,5 +5,5 @@
 
 ## Local running instructions
 
-- `npm build`
+- `npm install`
 - `npm start`
