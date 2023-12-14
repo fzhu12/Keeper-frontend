@@ -1,10 +1,11 @@
-import React, {useState} from "react";
+import React, { useEffect, useState } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 import Note from "./Note";
-import notesFile from "./../notes";
+// import notesFile from "./../notes";
 
 function App() {
+
   // State for handle changes
   const [inputText, setInputText] = useState({
     title: "",
@@ -12,9 +13,16 @@ function App() {
   });
 
   // State for map/add/delete notes
-  const [notes, setNotes] = useState(notesFile);
+  const [notes, setNotes] = useState([]);
 
-  // Handle changes
+  // Fetch notes from backend
+  useEffect(() => {
+    fetch("/notes")
+        .then(response => response.json())
+        .then(notes => setNotes(notes));
+  }, [])
+
+  // Handle changes in note input
   function handleChange(event) {
     const newValue = event.target.value;
     const inputName = event.target.name;
@@ -47,29 +55,53 @@ function App() {
   }
 
   // Add notes
-  function addNote() {
+  async function addNote() {
+    // check if null input
     if (inputText.title.length === 0 || inputText.content.length === 0)
       alert("Please put in title and note content")
     else {
-      setNotes((prevNotes) => {
+      // change frontend display
+      let newKey = -1;
+      setNotes( (prevNotes) => {
         const keys = prevNotes.map((note) => note.key);
-        const maxKey = Math.max.apply(null, keys);
-        inputText["key"] = maxKey + 1;
+        newKey = Math.max.apply(null, keys) + 1;
+        inputText["key"] = newKey;
         return [...prevNotes, inputText];
       });
+      await setNotes;
       setInputText({
         title: "",
         content: ""
+      });
+      // call backend method
+      await fetch("https://keeper-prj-backend-fc62b2193cf6.herokuapp.com/note", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          key: newKey,
+          title: inputText["title"],
+          content: inputText["content"]
+        })
       });
     }
   }
 
   // Delete notes
-  function deleteNote(idToDelete) {
+  async function deleteNote(idToDelete) {
+    // change frontend display
     setNotes((prevNotes) => {
       return prevNotes.filter(
           (prevNotes) => prevNotes.key !== idToDelete
       );
+    });
+    // call backend method
+    await fetch("https://keeper-prj-backend-fc62b2193cf6.herokuapp.com/note/" + idToDelete, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      }
     });
   }
 
