@@ -74,7 +74,7 @@ function App() {
         content: ""
       });
       // call backend method
-      await fetch("https://keeper-prj-backend-fc62b2193cf6.herokuapp.com/note", {
+      await fetch("https://keeper-prj-backend-fc62b2193cf6.herokuapp.com/api/note", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -97,7 +97,7 @@ function App() {
       );
     });
     // call backend method
-    await fetch("https://keeper-prj-backend-fc62b2193cf6.herokuapp.com/note/" + idToDelete, {
+    await fetch("https://keeper-prj-backend-fc62b2193cf6.herokuapp.com/api/note/" + idToDelete, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
