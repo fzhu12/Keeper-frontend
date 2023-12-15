@@ -17,7 +17,7 @@ function App() {
 
   // Fetch notes from backend
   useEffect(() => {
-    fetch(`/notes`)
+    fetch(`/api/notes`)
         .then(response => response.json())
         .then(notes => setNotes(notes));
   }, [])
@@ -74,7 +74,7 @@ function App() {
         content: ""
       });
       // call backend method
-      await fetch(`/note`, {
+      await fetch(`/api/note`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -97,7 +97,7 @@ function App() {
       );
     });
     // call backend method
-    await fetch(`/note/` + idToDelete, {
+    await fetch(`/api/note/` + idToDelete, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

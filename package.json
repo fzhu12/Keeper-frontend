@@ -1,7 +1,6 @@
 {
   "name": "keeper-frontend",
   "version": "1.0.0",
-  "proxy": "https://keeper-prj-backend-fc62b2193cf6.herokuapp.com/api/",
   "description": "",
   "keywords": [],
   "main": "src/index.js",
